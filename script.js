@@ -17,6 +17,9 @@ function getCompuerChoice() {
 // function to play one round of Rock Paper Scissors
 function playRound(playerSelection, computerSelection) {
 
+    // make the player selection case-insensitive
+    playerSelection = playerSelection.toLowerCase();
+    
     // if both players do the same selection, it is a tie
     if (playerSelection == computerSelection) return "It is a tie!";
                                                         
@@ -43,4 +46,4 @@ function playRound(playerSelection, computerSelection) {
     return "Invalid play, try again"
 }
 
-console.log(playRound("ok",getCompuerChoice()));
+console.log(playRound("ROCK",getCompuerChoice()));
