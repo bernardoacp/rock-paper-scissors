@@ -1,5 +1,5 @@
 // function to randomly get the computer choice
-function getCompuerChoice() {
+function getComputerChoice() {
     
     // generate a random number between 0 and 1
     let number = Math.random();
@@ -40,10 +40,51 @@ function playRound(playerSelection, computerSelection) {
         return "You Lose! Rock beats Scissors";
 
     if (playerSelection == "scissors" && computerSelection == "paper")
-        return "You Win! Scissors beats Paper";
+        return "You Win! Scissors beats Paper";   
 
-    // if no condition is satisfied, it means that the player gave an incorrect input
-    return "Invalid play, try again"
+    return "Invalid play, try again";
 }
 
-console.log(playRound("ROCK",getCompuerChoice()));
+// function to play a 5-round game of Rock Paper Scissors
+function playGame() {
+
+    // declare variables for player and computer selecion
+    let playerSelection, roundResult;
+    
+    // initialize player and computer score
+    let playerScore = 0, computerScore = 0;
+
+    // loop through the five rounds
+    for (let i = 1; i <= 5; i++) {
+
+        // prompt the user to make a play
+        playerSelection = prompt("Make your play:");
+
+        // calculate the round result
+        roundResult = playRound(playerSelection, getComputerChoice())
+
+        // if the player wins, update their score
+        if (roundResult.includes("You Win")) playerScore++;
+            
+        // if the computer wins, update their score
+        else if (roundResult.includes("You Lose")) computerScore++;
+
+        // display the round result
+        console.log("Round " + i + ": " + roundResult);
+
+        // if the play is invalid, replay the round
+        if (roundResult.includes("Invalid")) i--;
+    }
+
+    // compare the scores and define the winner
+    if (playerScore == computerScore)
+        return "It is a tie!"
+    
+    if (playerScore > computerScore)
+        return "You Win!";
+
+    return "Computer Wins!";
+}
+
+// display the game result
+console.log(playGame());
