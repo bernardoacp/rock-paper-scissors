@@ -41,50 +41,57 @@ function playRound(playerSelection, computerSelection) {
 
     if (playerSelection == "scissors" && computerSelection == "paper")
         return "You Win! Scissors beats Paper";   
-
-    return "Invalid play, try again";
 }
+ 
+function handleClick(playerSelection) {    
 
-// function to play a 5-round game of Rock Paper Scissors
-function playGame() {
+    if (playerScore == 5 || computerScore == 5)
+        return;
 
-    // declare variables for player and computer selecion
-    let playerSelection, roundResult;
+    roundResult = playRound(playerSelection, getComputerChoice());
+    displayRound.textContent = "Round " + numRound + ": " + roundResult;
+    result.appendChild(displayRound);
+    numRound++;
     
-    // initialize player and computer score
-    let playerScore = 0, computerScore = 0;
+    if (roundResult.includes("Win"))
+        playerScore++;
+    else if (roundResult.includes("Lose"))
+        computerScore++;
 
-    // loop through the five rounds
-    for (let i = 1; i <= 5; i++) {
+    displayScore(playerScore, computerScore);
 
-        // prompt the user to make a play
-        playerSelection = prompt("Make your play:");
-
-        // calculate the round result
-        roundResult = playRound(playerSelection, getComputerChoice())
-
-        // if the player wins, update their score
-        if (roundResult.includes("You Win")) playerScore++;
-            
-        // if the computer wins, update their score
-        else if (roundResult.includes("You Lose")) computerScore++;
-
-        // display the round result
-        console.log("Round " + i + ": " + roundResult);
-
-        // if the play is invalid, replay the round
-        if (roundResult.includes("Invalid")) i--;
+    if (playerScore == 5) {
+        displayGame.textContent = "You Win!"
+        result.appendChild(displayGame);
+        return;
     }
-
-    // compare the scores and define the winner
-    if (playerScore == computerScore)
-        return "It is a tie!"
-    
-    if (playerScore > computerScore)
-        return "You Win!";
-
-    return "Computer Wins!";
+    else if (computerScore == 5) {
+        displayGame.textContent = "Computer Wins!"
+        result.appendChild(displayGame);
+        return;
+    }
 }
 
-// display the game result
-console.log(playGame());
+function displayScore(playerScore, computerScore) {
+    scoreTitle.textContent = "Score";
+    scoreContent.textContent = "Player: " + playerScore + "    " + "Computer: " + computerScore;
+    
+    score.appendChild(scoreTitle);
+    score.appendChild(scoreContent);
+}
+
+let rock = document.querySelector("#rock");
+let paper = document.querySelector("#paper");
+let scissors = document.querySelector("#scissors");
+let result = document.querySelector("#result");
+let score = document.querySelector("#score");
+let scoreTitle = document.createElement("h3");
+let scoreContent = document.createElement("p");
+let displayRound = document.createElement("p");
+let displayGame = document.createElement("h3");
+
+let numRound = 1, playerScore = 0, computerScore = 0;
+
+rock.addEventListener("click", () => handleClick("rock"));
+paper.addEventListener("click", () => handleClick("paper"));
+scissors.addEventListener("click", () => handleClick("scissors"));
